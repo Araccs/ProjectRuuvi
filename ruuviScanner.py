@@ -3,6 +3,7 @@ import bleak
 import struct
 import json
 import uuid
+import requests
 from datetime import datetime
 import pytz  # Import the pytz module
 
@@ -63,6 +64,13 @@ async def scan_for_devices_and_parse():
                     print(json.dumps(parsed_data, indent=4))
                 else:
                     print("Invalid data length")
+                    
+                # Send the parsed data to the Flask web application
+                response = requests.post('http://127.0.0.1:5000/receive_data', json=parsed_data)
+                if response.status_code == 200:
+                        print("Data sent to Flask successfully")
+                else:
+                    print("Failed to send data to Flask")
             else:
                 print("Data not found in manufacturer data")
 
