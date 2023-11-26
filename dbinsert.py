@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, render_template, request
 import psycopg2
 import json
 
@@ -16,6 +16,11 @@ def receive_data():
     insert_into_database(data)
 
     return "Data received and stored successfully"
+
+@app.route('/show_data')
+def show_data():
+    data = get_data_from_database()
+    return render_template('show_data.html', data=data)
 
 def insert_into_database(data):
     # Extract the UUID and JSON data from the received data
@@ -48,6 +53,22 @@ def insert_into_database(data):
     # Close the cursor and connection
     cur.close()
     conn.close()
+
+def get_data_from_database():
+    conn = psycopg2.connect(
+        dbname="sensordata",
+        user="postgres",
+        password="abomination",
+        host="localhost",
+        port="5432"
+    )
+    cur = conn.cursor()
+    select_query = "SELECT sensordata FROM sensordata"
+    cur.execute(select_query)
+    data = cur.fetchall()
+    cur.close()
+    conn.close()
+    return data
 
 if __name__ == '__main__':
     app.run(debug=True)
