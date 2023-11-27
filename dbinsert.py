@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import psycopg2
 import json
+from config import DATABASE_CONFIG
 
 app = Flask(__name__)
 
@@ -27,13 +28,7 @@ def insert_into_database(data):
     sensor_data = json.dumps({'sensordata': data})
 
     # Connect to the PostgreSQL database
-    conn = psycopg2.connect(
-        dbname="sensordata",
-        user="postgres",
-        password="abomination",
-        host="localhost",
-        port="5432"
-    )
+    conn = psycopg2.connect(**DATABASE_CONFIG)
 
     # Create a cursor object to execute SQL queries
     cur = conn.cursor()
@@ -55,13 +50,7 @@ def insert_into_database(data):
     conn.close()
 
 def get_data_from_database():
-    conn = psycopg2.connect(
-        dbname="sensordata",
-        user="postgres",
-        password="abomination",
-        host="localhost",
-        port="5432"
-    )
+    conn = psycopg2.connect(**DATABASE_CONFIG)
     cur = conn.cursor()
     select_query = "SELECT sensordata FROM sensordata"
     cur.execute(select_query)
@@ -69,6 +58,31 @@ def get_data_from_database():
     cur.close()
     conn.close()
     return data
+
+
+@app.route('/search', methods=['GET', 'POST'])
+def search_data():
+    if request.method == 'POST':
+        search_query = request.form.get('search_query')
+
+        # Connect to the database
+        conn = psycopg2.connect(**DATABASE_CONFIG)
+        cur = conn.cursor()
+
+        # Example: Search by UUID
+        query = f"SELECT * FROM sensordata WHERE sensordata->>'UUID' = %s"
+        cur.execute(query, (search_query,))
+        result = cur.fetchall()
+
+        # You can customize the query based on your data model and search criteria
+        print("Search Query:", search_query)
+        # Close the cursor and connection
+        cur.close()
+        conn.close()
+
+        return render_template('search_results.html', results=result)
+
+    return render_template('search.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

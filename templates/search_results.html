@@ -1,0 +1,25 @@
+<!-- search_results.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search Results</title>
+  </head>
+  <body>
+    <h1>Search Results</h1>
+
+    {% if results %}
+    <ul>
+      {% for item in results %}
+      <li>{{ item }}</li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p>No results found.</p>
+    {% endif %}
+
+    <a href="{{ url_for('search_data') }}">Back to Search</a>
+  </body>
+</html>
