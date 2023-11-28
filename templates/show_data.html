@@ -1,57 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Show Data</title>
     <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
 
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
 
-        th {
-            background-color: #f2f2f2;
-        }
+      th {
+        background-color: #f2f2f2;
+      }
     </style>
-</head>
-<body>
-    <h1>Sensordata </h1>
-    
+  </head>
+  <body>
+    <h1>Sensordata</h1>
+
     <table>
-        <thead>
-            <tr>
-                <th>UUID</th>
-                <th>Temperature</th>
-                <th>Humidity</th>
-                <th>Pressure</th>
-                <th>Acceleration (X, Y, Z)</th>
-                <th>Battery Voltage</th>
-                <th>TX Power</th>
-                <th>Timestamp</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in data %}
-                <tr>
-                    <td>{{ item[0]['sensordata']['UUID'] }}</td>
-                    <td>{{ item[0]['sensordata']['Temperature'] }}</td>
-                    <td>{{ item[0]['sensordata']['Humidity'] }}</td>
-                    <td>{{ item[0]['sensordata']['Pressure'] }}</td>
-                    <td>{{ item[0]['sensordata']['Acceleration (X, Y, Z)'] }}</td>
-                    <td>{{ item[0]['sensordata']['Battery Voltage'] }}</td>
-                    <td>{{ item[0]['sensordata']['TX Power'] }}</td>
-                    <td>{{ item[0]['sensordata']['Timestamp'] }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
+      <thead>
+        <tr>
+          <th>UUID</th>
+          <th>Temperature</th>
+          <th>Humidity</th>
+          <th>Pressure</th>
+          <th>Acceleration (X, Y, Z)</th>
+          <th>Battery Voltage</th>
+          <th>TX Power</th>
+          <th>Timestamp</th>
+          <th>Movement Counter</th>
+          <th>Measurement Sequence</th>
+          <th>MAC Address</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in data %}
+        <tr>
+          <td>{{ item[0]['sensordata']['UUID'] }}</td>
+          <td>{{ item[0]['sensordata']['Temperature'] }}</td>
+          <td>{{ item[0]['sensordata']['Humidity'] }}</td>
+          <td>{{ item[0]['sensordata']['Pressure'] }}</td>
+          <td>{{ item[0]['sensordata']['Acceleration (X, Y, Z)'] }}</td>
+          <td>{{ item[0]['sensordata']['Battery Voltage'] }}</td>
+          <td>{{ item[0]['sensordata']['TX Power'] }}</td>
+          <td>{{ item[0]['sensordata']['Timestamp'] }}</td>
+          <td>{{ item[0]['sensordata']['Movement Counter'] }}</td>
+          <td>{{ item[0]['sensordata']['Measurement Sequence'] }}</td>
+          <td>{{ item[0]['sensordata']['MAC Address'] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
     </table>
-</body>
+  </body>
 </html>
