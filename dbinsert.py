@@ -70,12 +70,13 @@ def search_data():
         cur = conn.cursor()
 
         # Example: Search by UUID
-        query = f"SELECT * FROM sensordata WHERE sensordata->>'UUID' = %s"
-        cur.execute(query, (search_query,))
+        query = f"SELECT * FROM sensordata WHERE sensordata->>'Temperature' LIKE '{search_query}%'"
+        cur.execute(query)
         result = cur.fetchall()
 
         # You can customize the query based on your data model and search criteria
-        print("Search Query:", search_query)
+        print("Search Query:", query)
+        print("Result:", result)
         # Close the cursor and connection
         cur.close()
         conn.close()
