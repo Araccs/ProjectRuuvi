@@ -35,7 +35,7 @@ def insert_into_database(data):
 
     # SQL query to insert data into RuuviSensorData table
     insert_query = """
-        INSERT INTO sensordata (sensordata)
+        INSERT INTO sensordatatable (sensorresult)
         VALUES (%s)
     """
     print("Sensor Data:", sensor_data)
@@ -52,9 +52,10 @@ def insert_into_database(data):
 def get_data_from_database():
     conn = psycopg2.connect(**DATABASE_CONFIG)
     cur = conn.cursor()
-    select_query = "SELECT sensordata FROM sensordata"
+    select_query = "SELECT data_id, sensorresult FROM sensordatatable"
     cur.execute(select_query)
     data = cur.fetchall()
+    print(data)
     cur.close()
     conn.close()
     return data
@@ -70,7 +71,7 @@ def search_data():
         cur = conn.cursor()
 
         # Example: Search by UUID
-        query = f"SELECT * FROM sensordata WHERE sensordata->>'Temperature' LIKE '{search_query}%'"
+        query = f"SELECT * FROM sensordatatable WHERE sensorresult->>'Temperature' LIKE '{search_query}%'"
         cur.execute(query)
         result = cur.fetchall()
 

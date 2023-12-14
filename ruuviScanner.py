@@ -2,7 +2,6 @@ import asyncio
 import bleak
 import struct
 import json
-import uuid
 import requests
 from datetime import datetime
 import pytz
@@ -39,9 +38,6 @@ async def scan_for_devices_and_parse():
                     battery_voltage = battery_voltage / 100
                     tx_power = struct.unpack('!B', data[15:16])[0]
 
-                    # Create a UUID (version 4)
-                    unique_id = str(uuid.uuid4())
-
                     # Get the current UTC time
                     timestamp_utc = datetime.utcnow()
 
@@ -53,7 +49,6 @@ async def scan_for_devices_and_parse():
 
                     # Create a dictionary with the parsed data, UUID, and timestamp
                     parsed_data = {
-                        "UUID": unique_id,
                         "Timestamp": timestamp_iso8601,
                         "Temperature": round(temperature, 2),
                         "Humidity": round(humidity, 2),

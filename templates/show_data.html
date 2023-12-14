@@ -45,17 +45,18 @@
       <tbody>
         {% for item in data %}
         <tr>
-          <td>{{ item[0]['sensordata']['UUID'] }}</td>
-          <td>{{ item[0]['sensordata']['Temperature'] }}</td>
-          <td>{{ item[0]['sensordata']['Humidity'] }}</td>
-          <td>{{ item[0]['sensordata']['Pressure'] }}</td>
-          <td>{{ item[0]['sensordata']['Acceleration (X, Y, Z)'] }}</td>
-          <td>{{ item[0]['sensordata']['Battery Voltage'] }}</td>
-          <td>{{ item[0]['sensordata']['TX Power'] }}</td>
-          <td>{{ item[0]['sensordata']['Timestamp'] }}</td>
-          <td>{{ item[0]['sensordata']['Movement Counter'] }}</td>
-          <td>{{ item[0]['sensordata']['Measurement Sequence'] }}</td>
-          <td>{{ item[0]['sensordata']['MAC Address'] }}</td>
+          <td>{{ item[0] }}</td>
+          {% set sensordata = item[1]['sensordata'] if item[1] and item[1].get('sensordata') else {} %}
+          <td>{{ sensordata.get('Temperature', 'N/A') }}</td>
+          <td>{{ sensordata.get('Humidity', 'N/A') }}</td>
+          <td>{{ sensordata.get('Pressure', 'N/A') }}</td>
+          <td>{{ sensordata.get('Acceleration (X, Y, Z)', 'N/A') }}</td>
+          <td>{{ sensordata.get('Battery Voltage', 'N/A') }}</td>
+          <td>{{ sensordata.get('TX Power', 'N/A') }}</td>
+          <td>{{ sensordata.get('Timestamp', 'N/A') }}</td>
+          <td>{{ sensordata.get('Movement Counter', 'N/A') }}</td>
+          <td>{{ sensordata.get('Measurement Sequence', 'N/A') }}</td>
+          <td>{{ sensordata.get('MAC Address', 'N/A') }}</td>
         </tr>
         {% endfor %}
       </tbody>
