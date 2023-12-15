@@ -1,6 +1,5 @@
 import struct
 import json
-import uuid
 import requests
 from datetime import datetime
 import pytz
@@ -26,9 +25,6 @@ def parse_raw_data(raw_data):
         tx_power = struct.unpack('!B', raw_data[15:16])[0]
         tx_power = ((tx_power & 0b11111 * 2) -40)
 
-        # Create a UUID (version 4)
-        unique_id = str(uuid.uuid4())
-
         # Get the current UTC time
         timestamp_utc = datetime.utcnow()
 
@@ -37,7 +33,6 @@ def parse_raw_data(raw_data):
 
         # Create a dictionary with the parsed data, UUID, and timestamp
         parsed_data = {
-            "UUID": unique_id,
             "Timestamp": timestamp_iso8601,
             "Temperature": round(temperature, 2),
             "Humidity": round(humidity, 2),
