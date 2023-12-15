@@ -21,9 +21,10 @@ def parse_raw_data(raw_data):
         acceleration_x = struct.unpack('!h', raw_data[7:9])[0] / 1000.0
         acceleration_y = struct.unpack('!h', raw_data[9:11])[0] / 1000.0
         acceleration_z = struct.unpack('!h', raw_data[11:13])[0] / 1000.0
-        battery_voltage = (struct.unpack('!H', raw_data[13:15])[0] * 1.0)
-        battery_voltage = battery_voltage / 100
+        battery_voltage = (struct.unpack('!H', raw_data[13:15])[0])
+        battery_voltage = ((battery_voltage >> 5) + 1600) / 1000.0           
         tx_power = struct.unpack('!B', raw_data[15:16])[0]
+        tx_power = ((tx_power & 0b11111 * 2) -40)
 
         # Create a UUID (version 4)
         unique_id = str(uuid.uuid4())
@@ -31,14 +32,8 @@ def parse_raw_data(raw_data):
         # Get the current UTC time
         timestamp_utc = datetime.utcnow()
 
-        # Set the desired timezone (GMT+2)
-        gmt_plus_2 = pytz.timezone('Europe/Helsinki')  # Adjust the timezone based on your location
-
-        # Convert UTC time to GMT+2
-        timestamp_gmt_plus_2 = timestamp_utc.replace(tzinfo=pytz.utc).astimezone(gmt_plus_2)
-
         # Format the timestamp in ISO 8601 format
-        timestamp_iso8601 = timestamp_gmt_plus_2.isoformat()
+        timestamp_iso8601 = timestamp_utc.isoformat()
 
         # Create a dictionary with the parsed data, UUID, and timestamp
         parsed_data = {
@@ -52,7 +47,7 @@ def parse_raw_data(raw_data):
             "TX Power": tx_power,
             "Movement Counter": movement_counter if movement_counter != 255 else "Not available",
             "Measurement Sequence": measurement_sequence if measurement_sequence != 65535 else "Not available",
-            "MAC Address": hex(mac_address)
+            # "MAC Address": hex(mac_address)
         }
 
         # Print the parsed data
