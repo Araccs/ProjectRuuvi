@@ -39,14 +39,10 @@ async def scan_for_devices_and_parse():
                     tx_power = struct.unpack('!B', data[15:16])[0]
                     tx_power = ((tx_power & 0b11111 * 2) -40)
 
-<<<<<<< HEAD
                     # Create a UUID (version 4)
-                    unique_id = str(uuid.uuid4())
+                    # unique_id = str(uuid.uuid4())
 
                    # Get the current UTC time
-=======
-                    # Get the current UTC time
->>>>>>> f1f9cfc2686107da48d6554792913b4c6d274bc3
                     timestamp_utc = datetime.utcnow()
 
                     # Format the timestamp in ISO 8601 format
